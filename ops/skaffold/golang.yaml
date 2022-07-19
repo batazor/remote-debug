@@ -1,0 +1,33 @@
+apiVersion: skaffold/v2beta29
+kind: Config
+metadata:
+  name: golang-api
+build:
+  local:
+    useBuildkit: true
+  artifacts:
+    - image: golang-api
+      context: ../../src/golang/
+      docker:
+        dockerfile: ops/dockerfile/golang-api.Dockerfile
+      sync:
+        infer:
+          - 'src/golang/**'
+deploy:
+  helm:
+    releases:
+      - name: golang-api
+        namespace: remote-debug
+        chartPath: ../Helm/server-api
+        wait: true
+        artifactOverrides:
+          image: golang-api
+        setValueTemplates:
+          deploy.image.repository: "{{.IMAGE_REPO}}"
+          deploy.image.tag: "{{.IMAGE_TAG}}"
+portForward:
+  - resourceType: service
+    resourceName: golang-api
+    namespace: remote-debug
+    port: 7070
+    # localPort: 7070

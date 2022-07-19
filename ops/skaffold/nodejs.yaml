@@ -1,0 +1,33 @@
+apiVersion: skaffold/v2beta29
+kind: Config
+metadata:
+  name: nodejs-api
+build:
+  local:
+    useBuildkit: true
+  artifacts:
+    - image: nodejs-api
+      context: ../../src/nodejs/
+      docker:
+        dockerfile: ops/dockerfile/nodejs-api.Dockerfile
+      sync:
+        infer:
+          - 'src/nodejs/**'
+deploy:
+  helm:
+    releases:
+      - name: nodejs-api
+        namespace: remote-debug
+        chartPath: ../Helm/server-api
+        wait: true
+        artifactOverrides:
+          image: nodejs-api
+        setValueTemplates:
+          deploy.image.repository: "{{.IMAGE_REPO}}"
+          deploy.image.tag: "{{.IMAGE_TAG}}"
+portForward:
+  - resourceType: service
+    resourceName: nodejs-api-server-api
+    namespace: remote-debug
+    port: 7070
+    localPort: 7070

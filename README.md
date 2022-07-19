@@ -3,20 +3,27 @@
 An example demonstrates how to debug applications in the cloud 
 by running applications for different programming languages
 
+### Requirements
+
+- minikube (or real kubernetes cluster)
+- skaffold binary
+- telepresence binary
+
 ### Getting starting
 
 **Run**
 
-```
+```bash
 $> make help
 $> make minikube-up
-$> make run-go
-$> curl http://localhost:8080/userName
+$> make telepresence-up
+$> make skaffold-up
+$> curl http://golang-api.remote-debug:7070/test
 ```
 
 **Down**
 
-```
+```bash
 $> make down
 ```
 
