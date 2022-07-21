@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.4
 
-FROM --platform=$BUILDPLATFORM golang:1.18-alpine AS builder
+FROM --platform=$BUILDPLATFORM golang:1.18 AS builder
 
 ARG CI_COMMIT_TAG
 # `skaffold debug` sets SKAFFOLD_GO_GCFLAGS to disable compiler optimizations
@@ -27,6 +27,8 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
   -installsuffix cgo \
   -trimpath \
   -o app .
+
+ENTRYPOINT ["go", "run", "-mod", "vendor", "main.go"]
 
 FROM alpine:3.6
 

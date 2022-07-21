@@ -1,0 +1,4 @@
+version: v2beta1
+name: remote-debug
+imports:
+  - path: ./ops/devspace/golang.yaml

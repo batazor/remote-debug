@@ -21,3 +21,4 @@ help: ## Display this help screen
 include $(SELF_DIR)/ops/Makefile/minikube.mk
 include $(SELF_DIR)/ops/Makefile/telepresence.mk
 include $(SELF_DIR)/ops/Makefile/skaffold.mk
+include $(SELF_DIR)/ops/Makefile/devspace.mk

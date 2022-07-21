@@ -1,0 +1,109 @@
+version: v2beta1
+name: golang-api
+
+# This is a list of `images` that DevSpace can build for this project
+# We recommend to skip image building during development (devspace dev) as much as possible
+images:
+  app:
+    image: batazor/remote-debug/go
+    dockerfile: ./ops/dockerfile/golang-api.Dockerfile
+    context: ./src/golang
+    skipPush: true
+    target: builder
+    tags:
+      - latest
+      - $(git describe --always)
+    buildKit:
+      args: ["--platform", "linux/amd64"]
+
+commands:
+  app:
+    description: Run the app
+    command: go run -mod vendor main.go
+    
+
+# `deployments` tells DevSpace how to deploy this project
+deployments:
+  app:
+    updateImageTags: true
+    # This deployment uses `helm` but you can also define `kubectl` deployments or kustomizations
+    helm:
+      # We are deploying this project with the Helm chart you provided
+      chart:
+        name: ./ops/Helm/server-api
+      # Under `values` we can define the values for this Helm chart used during `helm install/upgrade`
+      # You may also use `valuesFiles` to load values from files, e.g. valuesFiles: ["values.yaml"]
+      values:
+        fullnameOverride: golang-api
+        deploy:
+          image:
+            repository: batazor/remote-debug/go
+      # image: ${IMAGE}
+      # ingress:
+      #   enabled: true
+      displayOutput: true
+
+# `dev` only applies when you run `devspace dev`
+dev:
+  app:
+    # Search for the container that runs this image
+    imageSelector: batazor/remote-debug/go
+
+    # Forward the following ports to be able access your application via localhost
+    ports:
+      - port: "7070:7070"
+
+    # `dev.open` tells DevSpace to open certain URLs as soon as they return HTTP status 200
+    # Since we configured port-forwarding, we can use a localhost address here to access our application
+    open:
+      - url: http://localhost:7070
+
+    # Sync files between the local filesystem and the development container
+    sync:
+      - path: ./src/golang:/go/github.com/batazor/remote-debug
+        onUpload:
+          restartContainer: true
+
+    command: ["go", "run"]
+    args: ["-mod", "vendor", "main.go"]
+    restartHelper:
+      inject: true
+
+    # Inject a lightweight SSH server into the container (so your IDE can connect to the remote dev env)
+    ssh:
+      enabled: true
+
+    # Make the following commands from my local machine available inside the dev container
+    proxyCommands:
+      - command: devspace
+      - command: kubectl
+      - command: helm
+      - command: git
+
+# `profiles` lets you modify the config above for different environments (e.g. dev vs production)
+profiles:
+  # This profile is called `production` and you can use it for example using: devspace deploy -p production
+  # We generally recommend using the base config without any profiles as optimized for development (e.g. image build+push is disabled)
+  - name: production
+    # This profile adds our image to the config so that DevSpace will build, tag and push our image before the deployment
+    merge:
+      images:
+        app:
+          image: ${IMAGE} # Use the value of our `${IMAGE}` variable here (see vars above)
+          dockerfile: ./ops/dockerfile/golang-api.Dockerfile
+          context: src/golang
+
+# This is a list of `pipelines` that DevSpace can execute (you can define your own)
+pipelines:
+  # This is the pipeline for the main command: `devspace dev` (or `devspace run-pipeline dev`)
+  dev:
+    run: |-
+      run_dependencies --all       # 1. Deploy any projects this project needs (see "dependencies")
+      create_deployments --all     # 2. Deploy Helm charts and manifests specfied as "deployments"
+      start_dev app                # 3. Start dev mode "app" (see "dev" section)
+  # You can run this pipeline via `devspace deploy` (or `devspace run-pipeline deploy`)
+  deploy:
+    run: |-
+      run_dependencies --all                            # 1. Deploy any projects this project needs (see "dependencies")
+      build_images --all -t latest                      # 2. Build, tag (git commit hash) and push all images (see "images")
+      create_deployments --all                          # 3. Deploy Helm charts and manifests specfied as "deployments"

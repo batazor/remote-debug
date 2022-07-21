@@ -39,3 +39,7 @@ dist
 
 # Logs
 *.log
+
+
+# Ignore DevSpace cache and log folder
+.devspace/

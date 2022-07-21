@@ -7,8 +7,11 @@ import (
 
 // simple http-server
 func main() {
+	const PORT = 7070
+
 	http.HandleFunc("/", helloHandler)
-	http.ListenAndServe(":7070", nil)
+	fmt.Printf("Server running on port %d\n", PORT)
+	http.ListenAndServe(fmt.Sprintf(":%d", PORT), nil)
 }
 
 func helloHandler(w http.ResponseWriter, r *http.Request) {
