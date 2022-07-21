@@ -7,5 +7,5 @@ skaffold-debug: ## Run skaffold with debug mode
 	@skaffold debug --port-forward
 
 skaffold-down: ## Delete skaffold deployment
-	@skaffold delete --force
+	@skaffold delete
 	-kubectl delete namespace remote-debug

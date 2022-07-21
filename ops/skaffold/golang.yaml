@@ -10,6 +10,7 @@ build:
       context: ../../src/golang/
       docker:
         dockerfile: ops/dockerfile/golang-api.Dockerfile
+        target: builder
       sync:
         infer:
           - 'src/golang/**'
@@ -23,11 +24,10 @@ deploy:
         artifactOverrides:
           image: golang-api
         setValueTemplates:
-          deploy.image.repository: "{{.IMAGE_REPO}}"
-          deploy.image.tag: "{{.IMAGE_TAG}}"
+          deploy.image.repository: "{{.IMAGE_REPO}}:{{.IMAGE_TAG}}"
 portForward:
   - resourceType: service
-    resourceName: golang-api
+    resourceName: golang-api-server-api
     namespace: remote-debug
     port: 7070
     # localPort: 7070

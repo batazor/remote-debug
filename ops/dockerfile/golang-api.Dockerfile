@@ -7,6 +7,10 @@ ARG CI_COMMIT_TAG
 ARG SKAFFOLD_GO_GCFLAGS
 ARG TARGETOS TARGETARCH
 
+# Define GOTRACEBACK to mark this container as using the Go language runtime
+# for `skaffold debug` (https://skaffold.dev/docs/workflows/debug/).
+ENV GOTRACEBACK=all
+
 WORKDIR /go/github.com/batazor/remote-debug
 
 # Load dependencies
@@ -44,10 +48,6 @@ CMD ["dlv", "--listen=:40000", "--headless=true", "--api-version=2", "--accept-m
 FROM alpine:3.6
 
 EXPOSE 7070
-
-# Define GOTRACEBACK to mark this container as using the Go language runtime
-# for `skaffold debug` (https://skaffold.dev/docs/workflows/debug/).
-ENV GOTRACEBACK=all
 
 WORKDIR /app/
 CMD ["./app"]
