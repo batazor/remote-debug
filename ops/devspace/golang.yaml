@@ -52,6 +52,7 @@ dev:
     # Forward the following ports to be able access your application via localhost
     ports:
       - port: "7070:7070"
+      - port: "40000:40000"
 
     # `dev.open` tells DevSpace to open certain URLs as soon as they return HTTP status 200
     # Since we configured port-forwarding, we can use a localhost address here to access our application
@@ -66,6 +67,8 @@ dev:
 
     command: ["go", "run"]
     args: ["-mod", "vendor", "main.go"]
+#    command: ["/dlv"]
+#    args: ["--listen=:40000", "--headless=true", "--api-version=2", "--accept-multiclient", "exec", "/app/app"]
     restartHelper:
       inject: true
 

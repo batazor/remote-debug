@@ -22,15 +22,28 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
   CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH \
   go build \
   -a \
-  -gcflags="${SKAFFOLD_GO_GCFLAGS}" \
-  -ldflags "-s -w -X main.CI_COMMIT_TAG=$CI_COMMIT_TAG" \
+  -gcflags="all=-N -l" \
   -installsuffix cgo \
   -trimpath \
   -o app .
 
 ENTRYPOINT ["go", "run", "-mod", "vendor", "main.go"]
 
+FROM --platform=$BUILDPLATFORM golang:1.18 AS debugger
+
+EXPOSE 7070 40000
+
+# Build Delve
+RUN go install github.com/go-delve/delve/cmd/dlv@latest
+
+WORKDIR /
+COPY --from=builder /go/github.com/batazor/remote-debug /go/github.com/batazor/remote-debug
+
+CMD ["dlv", "--listen=:40000", "--headless=true", "--api-version=2", "--accept-multiclient", "debug", "/go/github.com/batazor/remote-debug"]
+
 FROM alpine:3.6
+
+EXPOSE 7070
 
 # Define GOTRACEBACK to mark this container as using the Go language runtime
 # for `skaffold debug` (https://skaffold.dev/docs/workflows/debug/).
