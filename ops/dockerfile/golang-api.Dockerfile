@@ -26,7 +26,7 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
   CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH \
   go build \
   -a \
-  -gcflags="all=-N -l" \
+  -gcflags="${SKAFFOLD_GO_GCFLAGS}" \
   -installsuffix cgo \
   -trimpath \
   -o app .

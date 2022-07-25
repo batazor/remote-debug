@@ -38,3 +38,7 @@ $> make down
 - **AB-helpers**
     - [istio](https://istio.io/)
     - [nginx-ingress](https://kubernetes.github.io/ingress-nginx/)
+
+#### References
+
+- [Skaffold: more examples](https://github.com/GoogleContainerTools/skaffold/tree/main/examples)
