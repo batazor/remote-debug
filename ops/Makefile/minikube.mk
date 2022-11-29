@@ -2,9 +2,8 @@
 
 minikube-up: ## run minikube for dev mode
 	@minikube start \
-		--memory "4192" \
+		--memory "1984" \
 		--driver=docker \
-		--listen-address=0.0.0.0 \
 		--addons=registry-creds,ingress \
 		--extra-config=apiserver.authorization-mode=Node,RBAC
 

@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="locale" type="GoApplicationRunConfiguration" factoryName="Go Application">
+    <module name="remote-debug" />
+    <working_directory value="$PROJECT_DIR$/src/golang" />
+    <kind value="PACKAGE" />
+    <package value="github.com/batazor/remote-debug/src/golang" />
+    <directory value="$PROJECT_DIR$" />
+    <filePath value="$PROJECT_DIR$/src/golang/main.go" />
+    <method v="2" />
+  </configuration>
+</component>

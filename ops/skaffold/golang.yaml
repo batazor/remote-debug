@@ -1,4 +1,4 @@
-apiVersion: skaffold/v2beta29
+apiVersion: skaffold/v4beta1
 kind: Config
 metadata:
   name: golang-api
@@ -9,7 +9,7 @@ build:
     - image: golang-api
       context: ../../src/golang/
       docker:
-        dockerfile: ops/dockerfile/golang-api.Dockerfile
+        dockerfile: ../../ops/dockerfile/golang-api.Dockerfile
         target: builder
       sync:
         infer:
@@ -21,7 +21,7 @@ deploy:
         namespace: remote-debug
         chartPath: ../Helm/server-api
         wait: true
-        artifactOverrides:
+        setValues:
           image: golang-api
         setValueTemplates:
           deploy.image.repository: "{{.IMAGE_REPO}}:{{.IMAGE_TAG}}"

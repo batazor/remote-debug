@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.4
 
-FROM --platform=$BUILDPLATFORM golang:1.18 AS builder
+FROM --platform=$BUILDPLATFORM golang:1.19 AS builder
 
 ARG CI_COMMIT_TAG
 # `skaffold debug` sets SKAFFOLD_GO_GCFLAGS to disable compiler optimizations
@@ -33,7 +33,7 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
 
 ENTRYPOINT ["go", "run", "-mod", "vendor", "main.go"]
 
-FROM --platform=$BUILDPLATFORM golang:1.18 AS debugger
+FROM --platform=$BUILDPLATFORM golang:1.19 AS debugger
 
 EXPOSE 7070 40000
 
@@ -45,7 +45,11 @@ COPY --from=builder /go/github.com/batazor/remote-debug /go/github.com/batazor/r
 
 CMD ["dlv", "--listen=:40000", "--headless=true", "--api-version=2", "--accept-multiclient", "debug", "/go/github.com/batazor/remote-debug"]
 
-FROM alpine:3.6
+FROM alpine:3.16
+
+# Define GOTRACEBACK to mark this container as using the Go language runtime
+# for `skaffold debug` (https://skaffold.dev/docs/workflows/debug/).
+ENV GOTRACEBACK=single
 
 EXPOSE 7070
 

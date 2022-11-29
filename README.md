@@ -6,7 +6,7 @@ by running applications for different programming languages
 ### Requirements
 
 - minikube (or real kubernetes cluster)
-- skaffold binary
+- skaffold binary [insttall](https://skaffold.dev/docs/install/)
 - telepresence binary
 
 ### Getting starting

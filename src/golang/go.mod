@@ -1,3 +1,3 @@
 module github.com/batazor/remote-debug/src/golang
 
-go 1.18
+go 1.19
