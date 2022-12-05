@@ -16,8 +16,8 @@ by running applications for different programming languages
 ```bash
 $> make help
 $> make minikube-up
-$> make telepresence-up
 $> make skaffold-up
+$> make telepresence-up
 $> curl http://golang-api.remote-debug:7070/test
 ```
 

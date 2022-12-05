@@ -4,15 +4,15 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
         {
             "name": "Remote debug (Skaffold)",
             "language": "Go",
-            "type": "cloudcode",
+            "type": "cloudcode.kubernetes",
             "request": "attach",
             "remotePath": "${workspaceFolder}",
             "remoteRoot": "/code/",
             "port": 56268,
+            "debugPort": 56268,
             "podSelector": {
                 "app": "skaffold-helm"
             }
