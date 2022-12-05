@@ -45,7 +45,7 @@ COPY --from=builder /go/github.com/batazor/remote-debug /go/github.com/batazor/r
 
 CMD ["dlv", "--listen=:40000", "--headless=true", "--api-version=2", "--accept-multiclient", "debug", "/go/github.com/batazor/remote-debug"]
 
-FROM alpine:3.16
+FROM alpine:3.17
 
 # Define GOTRACEBACK to mark this container as using the Go language runtime
 # for `skaffold debug` (https://skaffold.dev/docs/workflows/debug/).
