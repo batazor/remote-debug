@@ -20,7 +20,7 @@ deploy:
         namespace: remote-debug
         chartPath: ../Helm/server-api
         wait: true
-        artifactOverrides:
+        setValues:
           image: nodejs-api
         setValueTemplates:
           deploy.image.repository: "{{.IMAGE_REPO}}:{{.IMAGE_TAG}}"

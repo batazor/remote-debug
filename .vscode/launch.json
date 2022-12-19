@@ -5,18 +5,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Attach to Kubernetes Pod (Go)",
-            "type": "cloudcode.kubernetes",
-            "request": "attach",
-            "language": "Go",
-            "debugPort": 56268,
-            "podSelector": {
-                "app.kubernetes.io/instance": "golang-api"
-            },
-            "localRoot": "${workspaceFolder}/src/golang",
-            "remoteRoot": "/app"
-        },
-        {
             "name": "Run/Debug on Kubernetes",
             "type": "cloudcode.kubernetes",
             "request": "launch",
@@ -33,8 +21,34 @@
                     "sourceFileMap": {
                         "${workspaceFolder}/src/golang": "/app/"
                     }
+                },
+                {
+                    "image": "nodejs-api",
+                    "containerName": "server-api",
+                    "sourceFileMap": {
+                        "${workspaceFolder}/src/nodejs": "/app"
+                    }
+                },
+                {
+                    "image": "python-api",
+                    "containerName": "server-api",
+                    "sourceFileMap": {
+                        "${workspaceFolder}/src/python": "/app"
+                    }
                 }
             ]
+        },
+        {
+            "name": "Attach to Kubernetes Pod (Go)",
+            "type": "cloudcode.kubernetes",
+            "request": "attach",
+            "language": "Go",
+            "debugPort": 56268,
+            "podSelector": {
+                "app.kubernetes.io/instance": "golang-api"
+            },
+            "localRoot": "${workspaceFolder}/src/golang",
+            "remoteRoot": "/app"
         },
         {
             "name": "Attach to Kubernetes Pod (Python)",
@@ -46,6 +60,18 @@
                 "app.kubernetes.io/instance": "python-api"
             },
             "localRoot": "${pwd}/src/python",
+            "remoteRoot": "/app"
+        },
+        {
+            "name": "Attach to Kubernetes Pod (NodeJS)",
+            "type": "cloudcode.kubernetes",
+            "request": "attach",
+            "language": "Node",
+            "debugPort": 9229,
+            "podSelector": {
+                "app.kubernetes.io/instance": "nodejs-api"
+            },
+            "localRoot": "${workspaceFolder}/src/nodejs",
             "remoteRoot": "/app"
         }
     ]

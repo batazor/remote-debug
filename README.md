@@ -15,8 +15,12 @@ by running applications for different programming languages
 
 ```bash
 $> make help
+
+# Run scaffold or use vscode launch.json
 $> make minikube-up
 $> make skaffold-up
+
+# DNS resolve
 $> make telepresence-up
 $> curl http://golang-api.remote-debug:7070/test
 ```
@@ -26,6 +30,11 @@ $> curl http://golang-api.remote-debug:7070/test
 ```bash
 $> make down
 ```
+
+### Debug
+
+![vscode run](./docs/images/vscode_run.png)
+![python debug](./docs/images/python_debug.png)
 
 #### Tooling
 

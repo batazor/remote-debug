@@ -2,6 +2,7 @@
 
 FROM node:19.3-alpine as builder
 
+ENV NODE_ENV $ENV
 # WARNING: if container limit < MAX_OLD_SPACE_SIZE => Killed
 # Docs: https://developer.ibm.com/languages/node-js/articles/nodejs-memory-management-in-container-environments/
 ARG MAX_OLD_SPACE_SIZE=8192
