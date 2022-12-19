@@ -1,4 +1,4 @@
-apiVersion: skaffold/v2beta29
+apiVersion: skaffold/v4beta1
 kind: Config
 metadata:
   name: nodejs-api
@@ -9,7 +9,7 @@ build:
     - image: nodejs-api
       context: ../../src/nodejs/
       docker:
-        dockerfile: ops/dockerfile/nodejs-api.Dockerfile
+        dockerfile: ../../ops/dockerfile/nodejs-api.Dockerfile
       sync:
         infer:
           - 'src/nodejs/**'
@@ -23,8 +23,7 @@ deploy:
         artifactOverrides:
           image: nodejs-api
         setValueTemplates:
-          deploy.image.repository: "{{.IMAGE_REPO}}"
-          deploy.image.tag: "{{.IMAGE_TAG}}"
+          deploy.image.repository: "{{.IMAGE_REPO}}:{{.IMAGE_TAG}}"
 portForward:
   - resourceType: service
     resourceName: nodejs-api-server-api

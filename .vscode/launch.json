@@ -5,17 +5,48 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Remote debug (Skaffold)",
-            "language": "Go",
+            "name": "Attach to Kubernetes Pod (Go)",
             "type": "cloudcode.kubernetes",
             "request": "attach",
-            "remotePath": "${workspaceFolder}",
-            "remoteRoot": "/code/",
-            "port": 56268,
+            "language": "Go",
             "debugPort": 56268,
             "podSelector": {
-                "app": "skaffold-helm"
-            }
+                "app.kubernetes.io/instance": "golang-api"
+            },
+            "localRoot": "${workspaceFolder}/src/golang",
+            "remoteRoot": "/app"
+        },
+        {
+            "name": "Run/Debug on Kubernetes",
+            "type": "cloudcode.kubernetes",
+            "request": "launch",
+            "skaffoldConfig": "${workspaceFolder}/skaffold.yaml",
+            "watch": true,
+            "cleanUp": true,
+            "autoStop": false,
+            "portForward": true,
+            "internalConsoleOptions": "neverOpen",
+            "debug": [
+                {
+                    "image": "golang-api",
+                    "containerName": "server-api",
+                    "sourceFileMap": {
+                        "${workspaceFolder}/src/golang": "/app/"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Attach to Kubernetes Pod (Python)",
+            "type": "cloudcode.kubernetes",
+            "request": "attach",
+            "language": "Python",
+            "debugPort": 5678,
+            "podSelector": {
+                "app.kubernetes.io/instance": "python-api"
+            },
+            "localRoot": "${pwd}/src/python",
+            "remoteRoot": "/app"
         }
     ]
 }
