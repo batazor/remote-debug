@@ -4,6 +4,6 @@ metadata:
   name: remote-debug
 requires:
 # - path: ./ops/skaffold/golang.yaml
-# - path: ./ops/skaffold/nodejs.yaml
-- path: ./ops/skaffold/python.yaml
+- path: ./ops/skaffold/nodejs.yaml
+# - path: ./ops/skaffold/python.yaml
 
