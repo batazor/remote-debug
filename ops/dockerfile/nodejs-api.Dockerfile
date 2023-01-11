@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.4
 
-FROM node:19.3-alpine as builder
+FROM node:19.4-alpine as builder
 
 ENV NODE_ENV $ENV
 # WARNING: if container limit < MAX_OLD_SPACE_SIZE => Killed
