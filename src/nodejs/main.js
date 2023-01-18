@@ -1,5 +1,6 @@
 const http = require('http');
 const url = require('url');
+const repl = require('repl');
 
 const hostname = '127.0.0.1';
 const port = 7070;
@@ -13,3 +14,5 @@ const server = http.createServer((req, res) => {
 server.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);
 });
+
+repl.start("$> ")

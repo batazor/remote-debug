@@ -11,5 +11,8 @@
     "api"
   ],
   "author": "Login Viktor",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "repl": "^0.1.3"
+  }
 }
