@@ -29,7 +29,7 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
 
 ENTRYPOINT ["go", "run", "-mod", "vendor", "main.go"]
 
-FROM alpine:3.21
+FROM alpine:3.22
 
 # Define GOTRACEBACK to mark this container as using the Go language runtime
 # for `skaffold debug` (https://skaffold.dev/docs/workflows/debug/).
